@@ -26,8 +26,10 @@ describe Component do
     comp.input_type = type1
     comp.output_type = type2
     comp.save!
-    Component.find(1).input_type.name.should == "type1"
-    Component.find(1).output_type.name.should == "type2"
+    id = comp.id
+    p id
+    Component.find(id).input_type.name.should == "type1"
+    Component.find(id).output_type.name.should == "type2"
   end
 
   it "should be invalid without name" do

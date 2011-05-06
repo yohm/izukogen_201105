@@ -2,9 +2,16 @@ require 'spec_helper'
 
 describe ComponentResult do
 
+  before(:all) do
+    Component.all.each do |c|
+      Component.destroy(c[:id])
+    end
+    @comp = Component.create!( :name => "test_component", :class_name => "writer", :product_name => "170001")
+  end
+
   before(:each) do
-    @comp = Component.create!(:name => "test_component")
-    @attr = {:start_at => DateTime.new,
+    @attr = {
+      :start_at => DateTime.new,
       :finish_at => nil,
       :component_id => 1,
       :module_folder => "/foo/bar/module",
@@ -50,11 +57,6 @@ describe ComponentResult do
 
   it "should fail without component_id" do
     cr = ComponentResult.new(@attr.merge(:component_id => nil) )
-    cr.should_not be_valid
-  end
-
-  it "should fail without previous_component_result_id" do
-    cr = ComponentResult.new(@attr.merge(:previous_component_result_id => nil) )
     cr.should_not be_valid
   end
 
