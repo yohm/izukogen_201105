@@ -21,4 +21,5 @@
 class ComponentResult < ActiveRecord::Base
   belongs_to :component
   belongs_to :previous_component_result, :class_name => 'ComponentResult'
+  belongs_to :scenario
 end

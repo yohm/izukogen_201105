@@ -13,7 +13,6 @@ describe ComponentResult do
       :folder => "/foo/bar/output",
       :result_file => "{top => /foo/bar/top.prt, log => /foo/bar/out.log}"
     }
-                             
   end
 
   it "should access component" do

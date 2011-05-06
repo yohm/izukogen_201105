@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110506020452) do
+ActiveRecord::Schema.define(:version => 20110506032020) do
 
   create_table "component_results", :force => true do |t|
     t.datetime "start_at"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20110506020452) do
     t.string   "folder"
     t.string   "result_file"
     t.integer  "previous_component_result_id"
+    t.integer  "scenario_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -40,6 +41,13 @@ ActiveRecord::Schema.define(:version => 20110506020452) do
   end
 
   create_table "model_types", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "scenarios", :force => true do |t|
     t.string   "name"
     t.text     "description"
     t.datetime "created_at"

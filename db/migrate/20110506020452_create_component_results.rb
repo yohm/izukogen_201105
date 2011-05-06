@@ -11,6 +11,7 @@ class CreateComponentResults < ActiveRecord::Migration
       t.string :folder
       t.string :result_file
       t.belongs_to :previous_component_result, :class_name => 'ComponentResult'
+      t.belongs_to :scenario
 
       t.timestamps
     end
