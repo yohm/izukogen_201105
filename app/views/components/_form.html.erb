@@ -25,11 +25,11 @@
   </div>
   <div class="field">
     <%= f.label :input_type_id %><br />
-    <%= f.text_field :input_type_id %>
+    <%= select( :component, :input_type_id, ModelType.all.map{|p| [ p.name, p.id ] } ) %>
   </div>
   <div class="field">
     <%= f.label :output_type_id %><br />
-    <%= f.text_field :output_type_id %>
+    <%= select( :component, :output_type_id, ModelType.all.map{|p| [ p.name, p.id ] } ) %>
   </div>
   <div class="field">
     <%= f.label :canvas_component %><br />

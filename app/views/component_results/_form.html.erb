@@ -21,11 +21,11 @@
   </div>
   <div class="field">
     <%= f.label :component_id %><br />
-    <%= f.text_field :component_id %>
+    <%= select( "component_result", :component_id, Component.all.map{|p| [ p.name, p.id ] } ) %>
   </div>
   <div class="field">
     <%= f.label :scenario_id %><br />
-    <%= f.text_field :scenario_id %>
+    <%= select( "component_result", :scenario_id, Scenario.all.map{|p| [ p.name, p.id ] } ) %>
   </div>
   <div class="field">
     <%= f.label :module_folder %><br />
@@ -53,7 +53,7 @@
   </div>
   <div class="field">
     <%= f.label :previous_component_result_id %><br />
-    <%= f.text_field :previous_component_result_id %>
+    <%= select( "component_result", :previous_component_result_id, ComponentResult.all.map{|p| [ p.folder, p.id ] } ) %>
   </div>
   <div class="actions">
     <%= f.submit %>
