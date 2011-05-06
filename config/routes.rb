@@ -1,5 +1,13 @@
 Izukogen201105::Application.routes.draw do
-  resources :scenarios
+  # resources :scenarios
+  
+  resources :scenarios do
+    member do
+      get 'run'
+    end
+  end
+  
+  # resources :scenarios, :member => {:run => :get}
 
   resources :component_results
 

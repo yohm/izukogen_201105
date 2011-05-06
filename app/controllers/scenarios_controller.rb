@@ -81,4 +81,16 @@ class ScenariosController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  # GET /scenarios/1/run
+  def run
+    @scenario = Scenario.find(params[:id])
+    
+    respond_to do |format|
+      format.html { redirect_to(scenarios_url) }
+      format.xml  { head :ok }
+    end
+
+  end
+
 end
