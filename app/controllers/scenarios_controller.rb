@@ -14,6 +14,7 @@ class ScenariosController < ApplicationController
   # GET /scenarios/1.xml
   def show
     @scenario = Scenario.find(params[:id])
+    @component_results = @scenario.component_results
 
     respond_to do |format|
       format.html # show.html.erb

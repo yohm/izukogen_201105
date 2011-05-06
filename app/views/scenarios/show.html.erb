@@ -10,6 +10,16 @@
   <%= @scenario.description %>
 </p>
 
+<% unless @scenario.component_results.empty? %>
+<table class="component_results">
+  <tr>
+    <th>Input folder</th>
+    <th>Component</th>
+    <th>Output folder</th>
+  </tr>
+  <%= render @component_results %>
+</table>
+<% end %>
 
 <%= link_to 'Edit', edit_scenario_path(@scenario) %> |
 <%= link_to 'Back', scenarios_path %>
