@@ -16,4 +16,6 @@
 #
 
 class Component < ActiveRecord::Base
+  belongs_to :input_type, :class_name => 'ModelType'
+  belongs_to :output_type, :class_name => 'ModelType'
 end
