@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Start at:</b>
+  <%= @component_result.start_at %>
+</p>
+
+<p>
+  <b>Finish at:</b>
+  <%= @component_result.finish_at %>
+</p>
+
+<p>
+  <b>Component:</b>
+  <%= @component_result.component_id %>
+</p>
+
+<p>
+  <b>Module folder:</b>
+  <%= @component_result.module_folder %>
+</p>
+
+<p>
+  <b>Env:</b>
+  <%= @component_result.env %>
+</p>
+
+<p>
+  <b>Parameter:</b>
+  <%= @component_result.parameter %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @component_result.status %>
+</p>
+
+<p>
+  <b>Folder:</b>
+  <%= @component_result.folder %>
+</p>
+
+<p>
+  <b>Result file:</b>
+  <%= @component_result.result_file %>
+</p>
+
+<p>
+  <b>Previous component result:</b>
+  <%= @component_result.previous_component_result_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_component_result_path(@component_result) %> |
+<%= link_to 'Back', component_results_path %>

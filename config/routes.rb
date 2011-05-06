@@ -1,4 +1,6 @@
 Izukogen201105::Application.routes.draw do
+  resources :component_results
+
   resources :components
 
   resources :model_types

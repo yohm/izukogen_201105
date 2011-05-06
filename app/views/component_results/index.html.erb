@@ -1,0 +1,41 @@
+<h1>Listing component_results</h1>
+
+<table>
+  <tr>
+    <th>Start at</th>
+    <th>Finish at</th>
+    <th>Component</th>
+    <th>Module folder</th>
+    <th>Env</th>
+    <th>Parameter</th>
+    <th>Status</th>
+    <th>Folder</th>
+    <th>Result file</th>
+    <th>Previous component result</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @component_results.each do |component_result| %>
+  <tr>
+    <td><%= component_result.start_at %></td>
+    <td><%= component_result.finish_at %></td>
+    <td><%= component_result.component_id %></td>
+    <td><%= component_result.module_folder %></td>
+    <td><%= component_result.env %></td>
+    <td><%= component_result.parameter %></td>
+    <td><%= component_result.status %></td>
+    <td><%= component_result.folder %></td>
+    <td><%= component_result.result_file %></td>
+    <td><%= component_result.previous_component_result_id %></td>
+    <td><%= link_to 'Show', component_result %></td>
+    <td><%= link_to 'Edit', edit_component_result_path(component_result) %></td>
+    <td><%= link_to 'Destroy', component_result, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Component result', new_component_result_path %>

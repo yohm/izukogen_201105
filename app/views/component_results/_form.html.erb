@@ -1,0 +1,57 @@
+<%= form_for(@component_result) do |f| %>
+  <% if @component_result.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@component_result.errors.count, "error") %> prohibited this component_result from being saved:</h2>
+
+      <ul>
+      <% @component_result.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :start_at %><br />
+    <%= f.datetime_select :start_at %>
+  </div>
+  <div class="field">
+    <%= f.label :finish_at %><br />
+    <%= f.datetime_select :finish_at %>
+  </div>
+  <div class="field">
+    <%= f.label :component_id %><br />
+    <%= f.text_field :component_id %>
+  </div>
+  <div class="field">
+    <%= f.label :module_folder %><br />
+    <%= f.text_field :module_folder %>
+  </div>
+  <div class="field">
+    <%= f.label :env %><br />
+    <%= f.text_area :env %>
+  </div>
+  <div class="field">
+    <%= f.label :parameter %><br />
+    <%= f.text_area :parameter %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br />
+    <%= f.text_field :status %>
+  </div>
+  <div class="field">
+    <%= f.label :folder %><br />
+    <%= f.text_field :folder %>
+  </div>
+  <div class="field">
+    <%= f.label :result_file %><br />
+    <%= f.text_field :result_file %>
+  </div>
+  <div class="field">
+    <%= f.label :previous_component_result_id %><br />
+    <%= f.text_field :previous_component_result_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
