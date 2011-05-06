@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110506020452
+# Schema version: 20110506032020
 #
 # Table name: component_results
 #
@@ -14,9 +14,11 @@
 #  folder                       :string(255)
 #  result_file                  :string(255)
 #  previous_component_result_id :integer
+#  scenario_id                  :integer
 #  created_at                   :datetime
 #  updated_at                   :datetime
 #
+
 
 class ComponentResult < ActiveRecord::Base
   belongs_to :component

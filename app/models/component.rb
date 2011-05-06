@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110506020452
+# Schema version: 20110506032020
 #
 # Table name: components
 #
@@ -14,6 +14,7 @@
 #  created_at       :datetime
 #  updated_at       :datetime
 #
+
 
 class Component < ActiveRecord::Base
   belongs_to :input_type, :class_name => 'ModelType'
