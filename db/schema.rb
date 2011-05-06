@@ -10,7 +10,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110505234155) do
+ActiveRecord::Schema.define(:version => 20110506015432) do
+
+  create_table "components", :force => true do |t|
+    t.string   "name"
+    t.string   "class_name"
+    t.string   "product_name"
+    t.integer  "input_type_id"
+    t.integer  "output_type_id"
+    t.string   "canvas_component"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "model_types", :force => true do |t|
     t.string   "name"

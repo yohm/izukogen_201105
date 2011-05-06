@@ -1,0 +1,35 @@
+<h1>Listing components</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Class name</th>
+    <th>Product name</th>
+    <th>Input type</th>
+    <th>Output type</th>
+    <th>Canvas component</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @components.each do |component| %>
+  <tr>
+    <td><%= component.name %></td>
+    <td><%= component.class_name %></td>
+    <td><%= component.product_name %></td>
+    <td><%= component.input_type_id %></td>
+    <td><%= component.output_type_id %></td>
+    <td><%= component.canvas_component %></td>
+    <td><%= component.description %></td>
+    <td><%= link_to 'Show', component %></td>
+    <td><%= link_to 'Edit', edit_component_path(component) %></td>
+    <td><%= link_to 'Destroy', component, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Component', new_component_path %>

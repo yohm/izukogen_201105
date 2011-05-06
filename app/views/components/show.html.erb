@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @component.name %>
+</p>
+
+<p>
+  <b>Class name:</b>
+  <%= @component.class_name %>
+</p>
+
+<p>
+  <b>Product name:</b>
+  <%= @component.product_name %>
+</p>
+
+<p>
+  <b>Input type:</b>
+  <%= @component.input_type_id %>
+</p>
+
+<p>
+  <b>Output type:</b>
+  <%= @component.output_type_id %>
+</p>
+
+<p>
+  <b>Canvas component:</b>
+  <%= @component.canvas_component %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @component.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_component_path(@component) %> |
+<%= link_to 'Back', components_path %>

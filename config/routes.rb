@@ -1,4 +1,6 @@
 Izukogen201105::Application.routes.draw do
+  resources :components
+
   resources :model_types
 
   # The priority is based upon order of creation:
