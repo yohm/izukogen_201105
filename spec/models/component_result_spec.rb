@@ -31,5 +31,24 @@ describe ComponentResult do
     cr2.save!
     ComponentResult.find(2).previous_component_result.module_folder.should == "cr1_module_folder"
   end
+
+  it "should have an accessor to scenario" do
+    cr = ComponentResult.new(@attr)
+    cr.should respond_to(:scenario)
+  end
+
+  it "should have the right associated scenario" do
+    cr = ComponentResult.new(@attr)
+    sc = Scenario.create!( :name => "example_name")
+    cr.scenario = sc
+    cr.save!
+    ComponentResult.find(1).scenario.name.should == "example_name"
+  end
+
+  it "should be created by Scenario#component_results method" do
+    sc = Scenario.create!( :name => "example_name")
+    cr = sc.component_results.create!(@attr)
+    cr.scenario.id.should == sc.id
+  end
   
 end
