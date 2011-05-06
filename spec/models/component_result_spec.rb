@@ -6,12 +6,15 @@ describe ComponentResult do
     @comp = Component.create!(:name => "test_component")
     @attr = {:start_at => DateTime.new,
       :finish_at => nil,
+      :component_id => 1,
       :module_folder => "/foo/bar/module",
       :env => "",
       :parameter => "testparameter=1",
       :status => "waiting",
       :folder => "/foo/bar/output",
-      :result_file => "{top => /foo/bar/top.prt, log => /foo/bar/out.log}"
+      :result_file => "{top => /foo/bar/top.prt, log => /foo/bar/out.log}",
+      :previous_component_result_id => 3,
+      :scenario_id => 2
     }
   end
 
@@ -26,7 +29,7 @@ describe ComponentResult do
     cr1 = ComponentResult.new(@attr)
     cr1.module_folder = "cr1_module_folder"
     cr1.save!
-    cr2 = ComponentResult.new(@attr)
+    cr2 = ComponentResult.new(@attr.merge(:folder => '/another/folder') )
     cr2.previous_component_result = cr1
     cr2.save!
     ComponentResult.find(2).previous_component_result.module_folder.should == "cr1_module_folder"
@@ -45,10 +48,25 @@ describe ComponentResult do
     ComponentResult.find(1).scenario.name.should == "example_name"
   end
 
-  it "should be created by Scenario#component_results method" do
-    sc = Scenario.create!( :name => "example_name")
-    cr = sc.component_results.create!(@attr)
-    cr.scenario.id.should == sc.id
+  it "should fail without component_id" do
+    cr = ComponentResult.new(@attr.merge(:component_id => nil) )
+    cr.should_not be_valid
   end
-  
+
+  it "should fail without previous_component_result_id" do
+    cr = ComponentResult.new(@attr.merge(:previous_component_result_id => nil) )
+    cr.should_not be_valid
+  end
+
+  it "should fail without folder" do
+    cr = ComponentResult.new(@attr.merge(:folder => nil) )
+    cr.should_not be_valid
+  end
+
+  it "should without unique folder" do
+    attr = @attr.merge(:folder => '/duplicated')
+    ComponentResult.create!(attr)
+    cr = ComponentResult.new(attr)
+    cr.should_not be_valid
+  end
 end

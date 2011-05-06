@@ -12,4 +12,6 @@
 
 class Scenario < ActiveRecord::Base
   has_many :component_results
+
+  validates :name, :presence => true, :uniqueness => true
 end

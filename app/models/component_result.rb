@@ -24,4 +24,8 @@ class ComponentResult < ActiveRecord::Base
   belongs_to :component
   belongs_to :previous_component_result, :class_name => 'ComponentResult'
   belongs_to :scenario
+
+  validates :component_id, :presence => true
+  validates :previous_component_result_id, :presence => true
+  validates :folder, :presence => true, :uniqueness => true
 end

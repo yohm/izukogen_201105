@@ -19,4 +19,8 @@
 class Component < ActiveRecord::Base
   belongs_to :input_type, :class_name => 'ModelType'
   belongs_to :output_type, :class_name => 'ModelType'
+
+  validates :name, :presence => true, :uniqueness => true
+  validates :class_name, :presence => true
+  validates :product_name, :presence => true
 end
