@@ -1,4 +1,7 @@
+require "pp"
 class ScenariosController < ApplicationController
+  include Canvas::CanvasHelper
+  
   # GET /scenarios
   # GET /scenarios.xml
   def index
@@ -85,6 +88,14 @@ class ScenariosController < ApplicationController
   # GET /scenarios/1/run
   def run
     @scenario = Scenario.find(params[:id])
+    
+    logger.debug("scenario run action (debug)")
+    
+    @scenario.component_results.each do |comp_res|
+      if comp_res.previous_component_result.status == "finished"
+        run_canvas_scenario(comp_res)
+      end
+    end
     
     respond_to do |format|
       format.html { redirect_to(scenarios_url) }
