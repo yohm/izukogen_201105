@@ -56,7 +56,7 @@ class ComponentResult < ActiveRecord::Base
     updated = [self.id, prev.id]
     while a = prev.previous_component_result
       prev = a
-      raise "couldn't find root" if updated.include?(prev.id)
+      raise "couldn't find root. #{prev.id} already exists in #{updated.inspect}." if updated.include?(prev.id)
       updated << prev.id
     end
     return prev
@@ -66,7 +66,4 @@ class ComponentResult < ActiveRecord::Base
     ComponentResult.find_all_by_previous_component_result_id(self.id)
   end
 
-  def self.roots
-    where("previous_component_result_id IS NULL")
-  end
 end

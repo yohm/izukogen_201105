@@ -3,8 +3,8 @@ require 'stringio'
 module ScenariosHelper
   
   def list_tree_component_results(roots, updated = [])
+    sio = StringIO.new
     if roots.size > 0
-      sio = StringIO.new
       sio.puts "<ul>"
       roots.each do |root|
         next if updated.include?(root.id)
