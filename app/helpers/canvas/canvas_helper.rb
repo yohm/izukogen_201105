@@ -2,28 +2,53 @@ require 'canvas/appif/client'
 require 'canvas/common/base-utils'
 
 module Canvas; module CanvasHelper
+  def copy_canvas_result_to_folder(comp_res)
+    logger.debug("copy_canvas_result_to_folder called")
+  end
+  
+  def output_file_of_canvas_task(task_id)
+    logger.debug("output_file_of_canvas_task called")
+    canvas_service = CANVAS::AppIF::Client.create_canvas_service
+    task = canvas_service.get_task(task_id)
+    logs = task.file_exec_log_list
+    log = logs[0]
+    if log.status == "fail"
+      log.component_exec_log_list.map { |comp_log|
+        logger.error "#{comp_log.name}(#{comp_log.error_code},#{comp_log.message})"
+      }
+      raise "canvas task (#{task_id}) was failed."
+    end
+
+    logger.debug("canvas_output_log: " + logs.pretty_inspect)
+    logger.debug("canvas_outputs: " + log.output_filename_list.pretty_inspect)
+
+    return url2path(log.output_dir_url) + log.output_filename_list[0]
+  end
+
   def run_canvas_scenario(comp_res)
     logger.debug("run_canvas_scenario called")
     logger.debug(comp_res.pretty_inspect)
-    callback_url = "http://rat2/component_results/#{comp_res.id}/callback"
+
+    callback_url = url_for.match(/^http(s|):\/\/[^\/]+/)[0] + "/component_results/#{comp_res.id}/callback"
+    logger.debug("callback_url = " + callback_url)
     shared_work_path = comp_res.folder.to_path
     FileUtils.mkdir_p(shared_work_path)
 
     output_dir_path = shared_work_path + "output"
     scenario_name = "comp_res_#{comp_res.id}"
     input_path = comp_res.previous_component_result.result_file.to_path
-    parameter = returning({}) do |result|
+    parameter = {}.tap do |obj|
       comp_res.parameter.split("\n").each do |line|
         next unless line.include?("=")
         key, val = line.chomp.split("=")
-        result[key.to_sym] = val
+        obj[key.to_sym] = val
       end
     end
-    env = returning({}) do |result|
+    env = {}.tap do |obj|
       comp_res.env.split("\n").each do |line|
         next unless line.include?("=")
         key, val = line.chomp.split("=")
-        result[key.to_sym] = val
+        obj[key.to_sym] = val
       end
     end
     canvas_component = comp_res.component.canvas_component
@@ -41,6 +66,9 @@ module Canvas; module CanvasHelper
       t.scenario_url = (scenario_dir_path + (scenario_name + ".rb")).to_url
       t.remove_task_file = false
     end
+
+    comp_res.canvas_task = task.id
+    comp_res.save!
     return task.run
   end
 

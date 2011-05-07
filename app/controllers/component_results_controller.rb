@@ -1,4 +1,6 @@
 class ComponentResultsController < ApplicationController
+  include Canvas::CanvasHelper
+
   # GET /component_results
   # GET /component_results.xml
   def index
@@ -85,13 +87,20 @@ class ComponentResultsController < ApplicationController
   def callback
     @component_result = ComponentResult.find(params[:id])
     @component_result.status = 'finished'
+    @component_result.result_file = output_file_of_canvas_task(@component_result.canvas_task).to_s
 
-    if @component_result.save
-      respond_to do |format|
-        format.html { redirect_to(@component_result, :notice => 'Component result was successfully updated.') }
-      end
-    else
-      # TODO : error handling
+    @component_result.save!
+    respond_to do |format|
+      format.html { redirect_to(@component_result, :notice => 'Component result was successfully updated.') }
+    end
+
+    copy_canvas_result_to_folder(@component_result)
+
+    comp_results = ComponentResult.find_all_by_previous_component_result_id(@component_result.id)
+    logger.debug("previous_component_results: " + comp_results.pretty_inspect)
+    comp_results.each do |comp_res|
+      next unless comp_res.scenario_id == @component_result.scenario_id
+      run_canvas_scenario(comp_res)
     end
   end
 

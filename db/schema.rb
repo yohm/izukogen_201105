@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110506032020) do
+ActiveRecord::Schema.define(:version => 20110507072420) do
 
   create_table "component_results", :force => true do |t|
     t.datetime "start_at"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20110506032020) do
     t.integer  "scenario_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "canvas_task"
   end
 
   create_table "components", :force => true do |t|
