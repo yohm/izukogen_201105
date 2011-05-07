@@ -47,4 +47,25 @@ class ComponentResult < ActiveRecord::Base
       comp_res.update_status_of_previous_recursive(value, updated)
     end
   end
+
+  def root
+    prev = self.previous_component_result
+    return self unless prev
+    max = 20  # ad-hoc code to avoid infinite loop
+    while a = prev.previous_component_result and max > 0
+      prev = a
+      max -= 1 
+    end
+    return prev
+  end
+
+  def children
+    ComponentResult.where( ["previous_component_result_id = ?", id] ).find_all do |x|
+      x.id > id
+    end
+  end
+
+  def self.roots
+    where("previous_component_result_id IS NULL")
+  end
 end

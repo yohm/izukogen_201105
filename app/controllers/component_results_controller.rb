@@ -5,7 +5,7 @@ class ComponentResultsController < ApplicationController
   # GET /component_results.xml
   def index
     @component_results = ComponentResult.all
-
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @component_results }
@@ -111,10 +111,10 @@ class ComponentResultsController < ApplicationController
   private
 
   def set_folder_path
-    basefolder = "BASE"
+    basefolder = YAML.load( File.open( File.join(RAILS_ROOT,'config/rat2_config.yml') ) )[:component_result_base_dir]
     class_name = @component_result.component.class_name
     prod_id = @component_result.component.product_name
-    model_name = root_component_result(@component_result).result_file
+    model_name = @component_result.root.result_file
     
     d = @component_result.created_at
     id = @component_result.id
@@ -124,14 +124,4 @@ class ComponentResultsController < ApplicationController
     @component_result.save
   end
 
-  def root_component_result( component_result )
-    prev = component_result.previous_component_result
-    return component_result unless prev
-    max = 20
-    while a = prev.previous_component_result and max > 0
-      prev = a
-      max -= 1 
-    end
-    return prev
-  end
 end
