@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110506032020
+# Schema version: 20110507140343
 #
 # Table name: component_results
 #
@@ -7,7 +7,6 @@
 #  start_at                     :datetime
 #  finish_at                    :datetime
 #  component_id                 :integer
-#  module_folder                :string(255)
 #  env                          :text
 #  parameter                    :text
 #  status                       :string(255)
@@ -17,6 +16,9 @@
 #  scenario_id                  :integer
 #  created_at                   :datetime
 #  updated_at                   :datetime
+#  canvas_task                  :integer
+#  cad_version                  :string(255)
+#  platform                     :string(255)
 #
 
 
