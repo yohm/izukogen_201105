@@ -4,6 +4,9 @@ Izukogen201105::Application.routes.draw do
     member do
       get 'run'
     end
+    member do
+      get 'callback'
+    end
   end
   
   resources :component_results do
