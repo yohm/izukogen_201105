@@ -43,6 +43,7 @@ class ComponentResultsController < ApplicationController
   # POST /component_results.xml
   def create
     @component_result = ComponentResult.new(params[:component_result])
+    @component_result.status = "waiting"
 
     respond_to do |format|
       if @component_result.save and set_folder_path
