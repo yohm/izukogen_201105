@@ -1,0 +1,19 @@
+require "canvas"
+
+CANVAS::Session.open do |session|
+  config = session.parse_config(ARGV[0])
+
+  session.shared_workdir = config["shared_workdir"]
+
+  comp = session.create_component("<%= d[:canvas_component] %>")
+
+  # Connection between the components
+  comp["inputfile"] = config["inputfile"]
+  <% d[:parameter].each do |key, val| %>
+  comp[:<%= key %>] = "<%= val %>"
+  <% end %>
+
+  comp.execute
+
+  comp.copy_result_to(config["outputdir"])
+end
