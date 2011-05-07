@@ -1,5 +1,9 @@
 <tr>
+  <% if component_result.previous_component_result %>
   <td><%= component_result.previous_component_result.folder %></td>
+  <% else %>
+  <td></td>
+  <% end %>
   <td><%= component_result.component.name %></td>
   <td><%= component_result.folder %></td>
 </tr>
