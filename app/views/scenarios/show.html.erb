@@ -10,15 +10,30 @@
   <%= @scenario.description %>
 </p>
 
-<% unless @scenario.component_results.empty? %>
+<% unless @component_results.empty? %>
+<!--
 <table class="component_results">
   <tr>
     <th>Input folder</th>
     <th>Component</th>
     <th>Output folder</th>
   </tr>
-  <%= render @component_results %>
+  <% @component_results.each do |component_result| %>
+  <tr>
+    <td>
+    <%  if previous = component_result.previous_component_result %>
+    <%= link_to( previous.folder, previous) %>
+    <% end %>
+    </td>
+    <td><%= link_to( component_result.component.name, component_result.component ) %></td>
+    <td><%= link_to( component_result.folder, component_result ) %></td>
+  </tr>
+  <% end %>
 </table>
+-->
+
+<%= raw list_tree_component_results( @component_results.map {|cr| cr.root }.uniq ) %>
+
 <% end %>
 
 <%= link_to 'Edit', edit_scenario_path(@scenario) %> |

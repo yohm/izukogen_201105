@@ -1,4 +1,6 @@
 require "pp"
+require 'scenarios_helper'
+
 class ScenariosController < ApplicationController
   include Canvas::CanvasHelper
   
@@ -18,7 +20,7 @@ class ScenariosController < ApplicationController
   def show
     @scenario = Scenario.find(params[:id])
     @component_results = @scenario.component_results
-
+    
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @scenario }

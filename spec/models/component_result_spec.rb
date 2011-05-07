@@ -25,6 +25,12 @@ describe ComponentResult do
     }
   end
 
+  after(:each) do
+    ComponentResult.all.each do |x|
+      ComponentResult.destroy( x.id )
+    end
+  end
+
   it "should access component" do
     cr = ComponentResult.new(@attr)
     cr.component = @comp
@@ -60,15 +66,9 @@ describe ComponentResult do
     cr.should_not be_valid
   end
 
-  it "should fail without folder" do
-    cr = ComponentResult.new(@attr.merge(:folder => nil) )
-    cr.should_not be_valid
-  end
-
-  it "should without unique folder" do
-    attr = @attr.merge(:folder => '/duplicated')
-    ComponentResult.create!(attr)
-    cr = ComponentResult.new(attr)
-    cr.should_not be_valid
+  it "root returns the root component_result" do
+    cr = ComponentResult.create!(@attr)
+    cr2 = ComponentResult.create!(@attr.merge(:previous_component_result_id => cr.id))
+    cr2.root.id.should == cr.id
   end
 end
