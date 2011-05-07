@@ -43,8 +43,8 @@ class ComponentResultsController < ApplicationController
     @component_result = ComponentResult.new(params[:component_result])
 
     respond_to do |format|
-      if @component_result.save
-        format.html { redirect_to(@component_result, :notice => 'Component result was successfully created.') }
+      if @component_result.save and set_folder_path
+          format.html { redirect_to(@component_result, :notice => 'Component result was successfully created.') }
         format.xml  { render :xml => @component_result, :status => :created, :location => @component_result }
       else
         format.html { render :action => "new" }
@@ -79,5 +79,44 @@ class ComponentResultsController < ApplicationController
       format.html { redirect_to(component_results_url) }
       format.xml  { head :ok }
     end
+  end
+
+  # GET /component_results/1/callback
+  def callback
+    @component_result = ComponentResult.find(params[:id])
+    @component_result.status = 'finished'
+    if @component_result.save
+      respond_to do |format|
+        format.html { redirect_to(@component_result, :notice => 'Component result was successfully updated.') }
+      end
+    else
+      # TODO : error handling
+    end
+  end
+
+  private
+  def set_folder_path
+    basefolder = "BASE"
+    class_name = @component_result.component.class_name
+    prod_id = @component_result.component.product_name
+    model_name = root_component_result(@component_result).result_file
+    
+    d = @component_result.created_at
+    id = @component_result.id
+
+    path = File.join( basefolder, class_name, prod_id, model_name, "#{d.to_date}_#{id}")
+    @component_result.folder = path
+    @component_result.save
+  end
+
+  def root_component_result( component_result )
+    prev = component_result.previous_component_result
+    return component_result unless prev
+    max = 20
+    while a = prev.previous_component_result and max > 0
+      prev = a
+      max -= 1 
+    end
+    return prev
   end
 end
