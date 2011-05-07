@@ -106,7 +106,7 @@ class ComponentResultsController < ApplicationController
 
   private
   def set_folder_path
-    basefolder = "BASE"
+    basefolder = YAML.load( File.open( File.join(RAILS_ROOT,'config/rat2_config.yml') ) )[:component_result_base_dir]
     class_name = @component_result.component.class_name
     prod_id = @component_result.component.product_name
     model_name = @component_result.root.result_file
