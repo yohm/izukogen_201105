@@ -83,12 +83,7 @@ module Canvas; module CanvasHelper
   private
 
   def scenario_dir_path
-    scenario_folder = ENV['SCENARIO_FOLDER']
-    if scenario_folder.nil?
-      msg = "Environment variable SCENARIO_FOLDER is not set"
-      logger.fatal(msg)
-      raise msg
-    end
+    scenario_folder = YAML.load( File.open( File.join(RAILS_ROOT,'config/rat2_config.yml') ) )[:canvas_scenario_dir]
     scenario_folder.to_path
   end
   

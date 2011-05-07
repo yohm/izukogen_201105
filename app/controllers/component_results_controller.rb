@@ -86,6 +86,7 @@ class ComponentResultsController < ApplicationController
 
   # GET /component_results/1/callback
   def callback
+    logger.debug "component_result#callback called"
     @component_result = ComponentResult.find(params[:id])
     @component_result.status = 'finished'
     @component_result.result_file = output_file_of_canvas_task(@component_result).to_s
