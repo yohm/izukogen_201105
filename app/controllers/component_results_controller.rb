@@ -80,4 +80,15 @@ class ComponentResultsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  # GET /component_results/1/callback
+  def callback
+    @component_result = ComponentResult.find(params[:id])
+    @component_result.status = 'finished'
+    @component_result.save!
+
+    respond_to do |format|
+      format.html { redirect_to(@component_result, :notice => 'Component result was successfully updated.') }
+    end
+  end
 end
