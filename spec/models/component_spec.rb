@@ -27,7 +27,6 @@ describe Component do
     comp.output_type = type2
     comp.save!
     id = comp.id
-    p id
     Component.find(id).input_type.name.should == "type1"
     Component.find(id).output_type.name.should == "type2"
   end
