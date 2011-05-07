@@ -54,6 +54,10 @@
     <%= f.text_field :result_file %>
   </div>
   <div class="field">
+    <%= f.label :canvas_task %><br />
+    <%= f.text_field :canvas_task %>
+  </div>
+  <div class="field">
     <%= f.label :previous_component_result_id %><br />
     <%= select( "component_result", :previous_component_result_id, ComponentResult.all.map{|p| [ p.folder, p.id ] } ) %>
   </div>
