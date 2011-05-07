@@ -3,11 +3,11 @@ require 'canvas/common/base-utils'
 
 module Canvas; module CanvasHelper
   def copy_canvas_result_to_folder(comp_res)
-    logger.debug("copy_canvas_result_folder called")
+    logger.debug("copy_canvas_result_to_folder called")
   end
   
   def output_file_of_canvas_task(task_id)
-    logger.debug("output_of_canvas_scenario called")
+    logger.debug("output_file_of_canvas_task called")
     canvas_service = CANVAS::AppIF::Client.create_canvas_service
     task = canvas_service.get_task(task_id)
     logs = task.file_exec_log_list
