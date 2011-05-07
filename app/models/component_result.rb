@@ -27,4 +27,24 @@ class ComponentResult < ActiveRecord::Base
 
   validates :component_id, :presence => true
   # validates :folder, :presence => true, :uniqueness => true
+
+
+  def update_status_to_error
+    self.status = "error"
+    self.save!
+    update_status_of_previous_recursive("skipped", [id])
+  end
+
+  # "updated" is to avoid recursive infinite roop
+  def update_status_of_previous_recursive(value, updated = [])
+    comp_results = ComponentResult.find_all_by_previous_component_result_id(self.id)
+    logger.debug("(update_status_of_previous_recursive) " + comp_results.pretty_inspect)
+    comp_results.each do |comp_res|
+      next if updated.include?(comp_res.id)
+      comp_res.status = value
+      comp_res.save!
+      updated << comp_res.id
+      comp_res.update_status_of_previous_recursive(value, updated)
+    end
+  end
 end

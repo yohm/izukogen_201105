@@ -5,8 +5,9 @@ module Canvas; module CanvasHelper
   def copy_canvas_result_to_folder(comp_res)
     logger.debug("copy_canvas_result_to_folder called")
   end
-  
-  def output_file_of_canvas_task(task_id)
+
+  def output_file_of_canvas_task(comp_res)
+    task_id = comp_res.canvas_task
     logger.debug("output_file_of_canvas_task called")
     canvas_service = CANVAS::AppIF::Client.create_canvas_service
     task = canvas_service.get_task(task_id)
@@ -23,6 +24,9 @@ module Canvas; module CanvasHelper
     logger.debug("canvas_outputs: " + log.output_filename_list.pretty_inspect)
 
     return url2path(log.output_dir_url) + log.output_filename_list[0]
+  rescue Exception => ex
+    comp_res.update_status_to_error
+    raise ex
   end
 
   def run_canvas_scenario(comp_res)
@@ -68,8 +72,12 @@ module Canvas; module CanvasHelper
     end
 
     comp_res.canvas_task = task.id
+    comp_res.status = "running"
     comp_res.save!
-    return task.run
+    task.run
+  rescue Exception => ex
+    comp_res.update_status_to_error
+    raise ex
   end
 
   private

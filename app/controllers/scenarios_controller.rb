@@ -92,11 +92,11 @@ class ScenariosController < ApplicationController
     logger.debug("scenario run action (debug)")
     
     @scenario.component_results.each do |comp_res|
-      if comp_res.previous_component_result.status == "finished"
+      if comp_res.status == "waiting" && comp_res.previous_component_result.status == "finished"
         run_canvas_scenario(comp_res)
       end
     end
-    
+
     respond_to do |format|
       format.html { redirect_to(scenarios_url) }
       format.xml  { head :ok }
