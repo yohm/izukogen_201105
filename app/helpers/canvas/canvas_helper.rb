@@ -5,8 +5,9 @@ module Canvas; module CanvasHelper
   def copy_canvas_result_to_folder(comp_res)
     logger.debug("copy_canvas_result_to_folder called")
   end
-  
-  def output_file_of_canvas_task(task_id)
+
+  def output_file_of_canvas_task(comp_res)
+    task_id = comp_res.canvas_task
     logger.debug("output_file_of_canvas_task called")
     canvas_service = CANVAS::AppIF::Client.create_canvas_service
     task = canvas_service.get_task(task_id)
@@ -23,6 +24,9 @@ module Canvas; module CanvasHelper
     logger.debug("canvas_outputs: " + log.output_filename_list.pretty_inspect)
 
     return url2path(log.output_dir_url) + log.output_filename_list[0]
+  rescue Exception => ex
+    comp_res.update_status_to_error
+    raise ex
   end
 
   def run_canvas_scenario(comp_res)
@@ -68,19 +72,18 @@ module Canvas; module CanvasHelper
     end
 
     comp_res.canvas_task = task.id
+    comp_res.status = "running"
     comp_res.save!
-    return task.run
+    task.run
+  rescue Exception => ex
+    comp_res.update_status_to_error
+    raise ex
   end
 
   private
 
   def scenario_dir_path
-    scenario_folder = ENV['SCENARIO_FOLDER']
-    if scenario_folder.nil?
-      msg = "Environment variable SCENARIO_FOLDER is not set"
-      logger.fatal(msg)
-      raise msg
-    end
+    scenario_folder = YAML.load( File.open( File.join(RAILS_ROOT,'config/rat2_config.yml') ) )[:canvas_scenario_dir]
     scenario_folder.to_path
   end
   

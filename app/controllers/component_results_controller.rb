@@ -47,7 +47,7 @@ class ComponentResultsController < ApplicationController
 
     respond_to do |format|
       if @component_result.save and set_folder_path
-          format.html { redirect_to(@component_result, :notice => 'Component result was successfully created.') }
+        format.html { redirect_to(@component_result, :notice => 'Component result was successfully created.') }
         format.xml  { render :xml => @component_result, :status => :created, :location => @component_result }
       else
         format.html { render :action => "new" }
@@ -86,9 +86,10 @@ class ComponentResultsController < ApplicationController
 
   # GET /component_results/1/callback
   def callback
+    logger.debug "component_result#callback called"
     @component_result = ComponentResult.find(params[:id])
     @component_result.status = 'finished'
-    @component_result.result_file = output_file_of_canvas_task(@component_result.canvas_task).to_s
+    @component_result.result_file = output_file_of_canvas_task(@component_result).to_s
 
     @component_result.save!
     respond_to do |format|
@@ -100,12 +101,16 @@ class ComponentResultsController < ApplicationController
     comp_results = ComponentResult.find_all_by_previous_component_result_id(@component_result.id)
     logger.debug("previous_component_results: " + comp_results.pretty_inspect)
     comp_results.each do |comp_res|
-      next unless comp_res.scenario_id == @component_result.scenario_id
-      run_canvas_scenario(comp_res)
+      begin
+        run_canvas_scenario(comp_res)
+      rescue Exception => ex
+        logger.error ex
+      end
     end
   end
 
   private
+
   def set_folder_path
     basefolder = YAML.load( File.open( File.join(RAILS_ROOT,'config/rat2_config.yml') ) )[:component_result_base_dir]
     class_name = @component_result.component.class_name
