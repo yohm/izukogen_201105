@@ -28,10 +28,6 @@
     <%= select( "component_result", :scenario_id, Scenario.all.map{|p| [ p.name, p.id ] } ) %>
   </div>
   <div class="field">
-    <%= f.label :module_folder %><br />
-    <%= f.text_field :module_folder %>
-  </div>
-  <div class="field">
     <%= f.label :env %><br />
     <%= f.text_area :env %>
   </div>
@@ -39,12 +35,18 @@
     <%= f.label :parameter %><br />
     <%= f.text_area :parameter %>
   </div>
-  <!--
+  <div class="field">
+    <%= f.label :cad_version %><br />
+    <%= f.text_field :cad_version %>
+  </div>
+  <div class="field">
+    <%= f.label :platform %><br />
+    <%= f.text_field :platform %>
+  </div>
   <div class="field">
     <%= f.label :status %><br />
     <%= f.text_field :status %>
   </div>
-  -->
   <!--
   <div class="field">
     <%= f.label :folder %><br />

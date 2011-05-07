@@ -6,7 +6,6 @@
     <!-- <th>Finish at</th> -->
     <th>Component</th>
     <th>Scenario</th>
-    <th>Module folder</th>
     <!-- <th>Env</th> -->
     <!-- <th>Parameter</th> -->
     <th>Status</th>
@@ -25,7 +24,6 @@
     <!-- <td><%= component_result.finish_at %></td> -->
     <td><%= link_to( component_result.component.name, component_result.component) if component_result.component %></td>
     <td><%= link_to( component_result.scenario.name, component_result.scenario) if component_result.scenario %></td>
-    <td><%= component_result.module_folder %></td>
     <!-- <td><%= component_result.env %></td> -->
     <!-- <td><%= component_result.parameter %></td> -->
     <td><%= component_result.status %></td>
