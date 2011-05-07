@@ -17,8 +17,8 @@
 
 <p>
   <b>Component Results:</b>
-<% unless @component_results.empty? %>
 <!--
+<% unless @component_results.empty? %>
 <table class="component_results">
   <tr>
     <th>Input folder</th>
@@ -38,7 +38,6 @@
   <% end %>
 </table>
 <% end %>
-
 -->
 
 <%= raw list_tree_component_results( @component_results.map {|cr| cr.root }.uniq ) %>

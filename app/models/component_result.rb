@@ -39,7 +39,7 @@ class ComponentResult < ActiveRecord::Base
 
   # "updated" is to avoid recursive infinite roop
   def update_status_of_previous_recursive(value, updated = [])
-    comp_results = ComponentResult.find_all_by_previous_component_result_id(self.id)
+    comp_results = children
     logger.debug("(update_status_of_previous_recursive) " + comp_results.pretty_inspect)
     comp_results.each do |comp_res|
       next if updated.include?(comp_res.id)
@@ -53,18 +53,17 @@ class ComponentResult < ActiveRecord::Base
   def root
     prev = self.previous_component_result
     return self unless prev
-    max = 20  # ad-hoc code to avoid infinite loop
-    while a = prev.previous_component_result and max > 0
+    updated = [self.id, prev.id]
+    while a = prev.previous_component_result
       prev = a
-      max -= 1 
+      raise "couldn't find root" if updated.include?(prev.id)
+      updated << prev.id
     end
     return prev
   end
 
   def children
-    ComponentResult.where( ["previous_component_result_id = ?", id] ).find_all do |x|
-      x.id > id
-    end
+    ComponentResult.find_all_by_previous_component_result_id(self.id)
   end
 
   def self.roots
